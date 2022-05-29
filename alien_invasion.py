@@ -14,6 +14,9 @@ class AlienInvasion:
 		self.screen = pg.display.set_mode((1200, 800))
 		pg.display.set_caption("Alien Invasion") #this is called surface
 
+		#set background color
+		self.bg_color = (230,230,230)
+
 	def run_game(self):
 		"""Start the main loop for the game"""
 		while True:
@@ -22,6 +25,8 @@ class AlienInvasion:
 				if event.type == pg.QUIT:
 					sys.exit()
 
+			# redraw the screen during each pass through the loop
+			self.screen.fill(self.bg_color)
 
 			# Make the most recently drawn sreen visible
 			pg.display.flip()
