@@ -24,24 +24,30 @@ class AlienInvasion:
 		#self.bg_color = (230,230,230)
 
 		self.ship = sp(self)
-		
+
 	def run_game(self):
 		"""Start the main loop for the game"""
 		while True:
 			# Watch for keyboard and mouse events
-			for event in pg.event.get():
-				if event.type == pg.QUIT:
-					sys.exit()
+			self._check_events()
 
 			# redraw the screen during each pass through the loop
-			self.screen.fill(self.settings.bg_color)
-
-			# adding the ship to the game window
-			self.ship.blitme()
+			self._update_screen()
 
 
 			# Make the most recently drawn sreen visible
 			pg.display.flip()
+
+	def _check_events(self):
+		"""Respond to keypresses and mouse events."""
+		for event in pg.event.get():
+				if event.type == pg.QUIT:
+					sys.exit()
+
+	def _update_screen(self):
+		"""Update images on the screen, and flip to the new screen."""
+		self.screen.fill(self.settings.bg_color)
+		self.ship.blitme()
 
 if __name__ == '__main__':
    # Make a game instance, and run the game.
