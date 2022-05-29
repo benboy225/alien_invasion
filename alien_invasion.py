@@ -20,9 +20,6 @@ class AlienInvasion:
 		self.screen = pg.display.set_mode((self.settings.screen_width, self.settings.screen_height,))
 		pg.display.set_caption("Alien Invasion") #this is called surface
 
-		#set background color
-		#self.bg_color = (230,230,230)
-
 		self.ship = sp(self)
 
 	def run_game(self):
@@ -30,6 +27,7 @@ class AlienInvasion:
 		while True:
 			# Watch for keyboard and mouse events
 			self._check_events()
+			self.ship.update()
 
 			# redraw the screen during each pass through the loop
 			self._update_screen()
@@ -43,6 +41,34 @@ class AlienInvasion:
 		for event in pg.event.get():
 				if event.type == pg.QUIT:
 					sys.exit()
+
+				elif event.type == pg.KEYDOWN:
+					if event.key == pg.K_RIGHT:
+						# Move the ship to the right by one increment
+						self.ship.moving_right =True
+
+					elif event.key == pg.K_LEFT:
+						# Move the ship to the left by one increment
+						self.ship.moving_left =True
+
+					elif event.key == pg.K_UP:
+						# Move the ship to the up by one increment
+						self.ship.moving_up =True
+
+					elif event.key == pg.K_DOWN:
+						# Move the ship to the up by one increment
+						self.ship.moving_down =True
+
+				elif event.type == pg.KEYUP:
+					if event.key == pg.K_RIGHT:
+						self.ship.moving_right =False
+					elif event.key == pg.K_LEFT:
+						self.ship.moving_left =False
+					elif event.key == pg.K_UP:
+						self.ship.moving_up =False
+					elif event.key == pg.K_DOWN:
+						self.ship.moving_down =False
+
 
 	def _update_screen(self):
 		"""Update images on the screen, and flip to the new screen."""
