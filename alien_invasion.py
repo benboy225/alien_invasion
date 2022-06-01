@@ -8,6 +8,7 @@ import pygame as pg
 from settings import Settings as st
 from ship import Ship as sp
 from bullet import Bullet as bl
+from alien import Alien as al
 
 class AlienInvasion:
 	"""Overall class to manage game assets and behavior."""
@@ -23,6 +24,7 @@ class AlienInvasion:
 
 		self.ship = sp(self)
 		self.bullets = pg.sprite.Group()
+		self.alien = pg.sprite.Group()
 
 	def run_game(self):
 		"""Start the main loop for the game"""
@@ -31,6 +33,7 @@ class AlienInvasion:
 			self._check_events()
 			self.ship.update()
 			self._update_bullets()
+			self._create_fleet()
 			self._update_screen()
 			
 	def _check_events(self):
@@ -80,7 +83,21 @@ class AlienInvasion:
 			self.ship.moving_up =False
 		elif event.key == pg.K_DOWN:
 			self.ship.moving_down =False
-		
+	
+	def _create_fleet(self):
+		"""creating a new alien and adding and grouping"""
+		NewFleet = al(self)
+		fleet_width = NewFleet.rect.width
+		available_space = self.settings.screen_width - (2 * fleet_width) #need a maring on each side
+		fleet_per_row = available_space // (2 * fleet_width) # total number of fleet per row
+
+		# build the fleet and save the position
+		for alien in range(fleet_per_row):
+			fleet = al(self)
+			fleet.x = fleet_width + 2 * fleet_width * alien
+			fleet.rect.x = fleet.x
+			self.alien.add(fleet)
+
 
 	def _fire_bullet(self):
 		"""Create a new bullet and add it to the bullets group."""
@@ -103,6 +120,7 @@ class AlienInvasion:
 		self.ship.blitme()
 		for bullet in self.bullets.sprites():
 			bullet.draw_bullet()
+		self.alien.draw(self.screen)
 
 		# Make the most recently drawn sreen visible
 		pg.display.flip()
